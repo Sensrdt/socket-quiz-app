@@ -29,7 +29,7 @@ interface User {
 export class Quiz {
     private users: User[]
     private questions: Question[]
-    private roomId: string
+    public roomId: string
     private quizStarted: boolean
     private currentState: "leaderboard" | "question" | "not_started" | "ended";
     private currentQuestion = 0;
@@ -43,9 +43,10 @@ export class Quiz {
 
         setInterval(() => {
             this.debug();
-        }, 10000)
+        }, 20000)
     }
 
+    // debug
     debug() {
         console.log("----debug---")
         console.log(this.roomId)
@@ -66,14 +67,22 @@ export class Quiz {
         const question = this.questions.find(i => i.id == questionId)
         const user = this.users.find(i => i.id == userId)
 
+        if (!user || !question) {
+            return;
+        }
+
+        // adding submission
         question?.submissions.push({
             questionId,
             userId,
             isRight: submission === question.answer,
             answer: submission
         })
-        
+
         // add score to user
+        if ((new Date().getTime() - question.timerStartTime)/1000 < 21 ) {
+            if (question.answer === submission) user.score += 1
+        }
     }
 
     // add a user
