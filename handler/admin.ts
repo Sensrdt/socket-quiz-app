@@ -33,6 +33,7 @@ export class Admin {
     }
 
     addQuiz(roomId: string) {
+        console.log("addQuiz")
         const presentRoomId = this.getQuiz(roomId)
         if (presentRoomId) {
             return

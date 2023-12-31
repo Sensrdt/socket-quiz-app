@@ -14,7 +14,6 @@ export class Users {
                 userId,
                 state: this.adminManager.getCurrentQuizStatus(data.roomId)
             })
-
             socket.join(data.roomId)
         })
 
@@ -22,6 +21,8 @@ export class Users {
             if (data.admin_code != "123qweasd") {
                 return
             }
+
+            console.log("access granted")
 
             socket.on("addQuiz", data => {
                 this.adminManager.addQuiz(data.roomId)
